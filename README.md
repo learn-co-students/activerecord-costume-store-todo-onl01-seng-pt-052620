@@ -1,3 +1,52 @@
+# NOTES 
+A migration is a file that contains information about how the DB should change 
+Changing the version of the schema from one to another 
+
+
+RAKE 
+rake is a Command Line Interface that we use to do development related tasks 
+
+
+RAKE TASKS
+
+rake -T   
+
+`rake db:console`  #Stars Console
+`rake db:create`   #Creates The DB from a Database_URL 
+`rake db:create_migration {parameters: NAME, VERSION}`   
+#Creates a migration  
+#If we didn't have the db/migrate files we can run this command and provide a NAME and an optional VERSION number
+#If VERSION number isn't provided a timestamp is provided. VERSION is the number to the left.  
+
+
+`rake db:environment:set` #Sets the environment value for the DB 
+
+`rake db:migrate`  #Migrate the Database. Runs Migrations. 
+`rake db:migrate:status` #Displays history of migrations
+`rake db:reset` #Drops and Recreates the DB 
+
+`rake db:rollback`  #Rolls the schema back to the previous version. Important for Local Env? Before GitHub. 
+ If you run a migration and then realize you want to make changes you should run this command first. Runs rake db:migrate in REVERSE.  
+
+
+
+`rake db:schema:cache:clear`  #Clears the db/schema_cache.yml file 
+`rake db:schema:cache:dump`  #Creates the db/schema_cache.yml file
+`rake db:schema:cache:clear`  #clears the db/schema_cache.rb file that is portable? 
+
+`rake db:seed`  #Loads the seed data from db/seeds.rb 
+`rake db:setup`  #Creates the DB, loads the schema 
+`rake db:structure:dump` #Dumps the database structure 
+`rake db:structure:load` #Recreates the database from the structure 
+
+`rake db:verion` #Retrieves the current schema version number 
+
+
+Notes Regarding Adapter 
+
+
+
+
 # Active Record Costume Store
 
 ## Contents
@@ -14,9 +63,16 @@
 
 :jack_o_lantern: :ghost: :jack_o_lantern:
 
-In this lab, you'll be creating the following tables: `costumes`,
-`costume_stores`, and `haunted_houses`. You'll be creating the following
-classes: `Costume`, `CostumeStore`, and `HauntedHouse`.
+In this lab, you'll be creating the following tables:
+`costumes`,
+`costume_stores`, and 
+`haunted_houses`. 
+
+You'll be creating the following classes: 
+
+`Costume`, 
+`CostumeStore`, and 
+`HauntedHouse`.
 
 The `costumes` table will have four columns:
 
@@ -25,8 +81,11 @@ The `costumes` table will have four columns:
   3. size
   4. image url
   
-_as well as_ the two "timestamp" columns:  `created_at` and `updated_at`. This
-will provide a grand total of _six_ columns.
+_as well as_ the two "timestamp" columns: 
+ `created_at` and 
+ `updated_at`. 
+ 
+This will provide a grand total of _six_ columns.
 
 The `costume_stores` table will have seven columns:
 
@@ -53,57 +112,59 @@ Before coding out the creation of these tables, read about Active Record below:
 
 ## Active Record Review
 
-Active Record is magic. Well, not really. But it does build out a bunch of
-methods for you. For instance, when it's used properly it will give you access
-to methods such as `create`, `save`, and `find_by`. Rejoice! Never again will
-you have to manually build out these methods!
+Active Record is magic. Well, not really. But it does build out a bunch of methods for you. 
 
-Active Record allows you to create a database that interacts with your class
-with only a few lines of code. These lines of code go to creating a model, which
-resides in the `app/models` folder, and a migration, which resides in the
-`db/migrate` folder.
+For instance, when it's used properly it will give you access to methods such as `create`, `save`, and `find_by`. 
+Rejoice! Never again will you have to manually build out these methods!
 
-The model inherits from `ActiveRecord::Base` while the migration inherits from
-`ActiveRecord::Migration`. Many migrations these days have a `change` method,
-but you might also see migrations with an `up` and a `down` method instead. To
-use Active Record, you have to stick to some specific naming conventions: while
-the migrations are plural, the models are singular.
+Active Record allows you to create a database that interacts with your class with only a few lines of code. 
+These lines of code go to creating a `model`, which resides in the `app/models` folder and a `migration`, which resides in the `db/migrate` folder.
 
-### Migrations
+The `model inherits` from `ActiveRecord::Base` 
+The `migration inherits` from `ActiveRecord::Migration`. 
 
-When creating migrations, the class names in the migration files must match
-their file names. For instance, a class in the migration file called
-`20141013204115_create_candies.rb` must be named `CreateCandies` while a class
-in a migration file called `20130915204319_add_addresses_to_houses.rb` must be
-called AddAddressesToHouses.
 
-You might notice that in both the examples above, the numbers at the front of
-the file name were ignored. These numbers are in the form `YYYYMMDDHHMMSS`.
-Later on, these timestamps will become important as Rails uses them to determine
-which migration should be run and in what order. For instance, if you made a
-table called `dog_walkers` and then added a column to it called `rating`, that
-would be fine as the timestamp on the `dog_walkers` table creation would
-indicate it needs to be migrated before adding the `rating` column to it.
-However, if you did this in reverse order, that is adding a column to a table
-that doesn't exist, then creating the table, you would get an error.
+Many migrations these days have a `change` method, but you might also see migrations with an `up` and a `down` method instead. 
 
-Migrations, as it was mentioned before, inherit from `ActiveRecord::Migration`
-and usually have a method called `change`. In change, you can create a table
-with the [create_table][] method. This method automatically will create a
-primary key column called `id`, but this default can be overridden if you'd like
-to customize it.
+To use Active Record, you have to stick to some specific naming conventions: 
+while the migrations are plural, the models are singular.
+
+# Migrations
+When creating migrations, the class names in the migration files must match their file names. 
+
+# Example 
+For instance, a class in the migration file called `20141013204115_create_candies.rb` must be named `CreateCandies` 
+while a class in a migration file called `20130915204319_add_addresses_to_houses.rb` must be called `AddAddressesToHouses`.
+
+You might notice that in both the examples above, the numbers at the front of the file name were ignored. 
+These numbers are in the form `YYYYMMDDHHMMSS`.Later on, these timestamps will become important as Rails uses them to determine 
+which migration should be run and in what order. 
+
+# Example 
+For instance, if you made a table called `dog_walkers` and then added a column to it called `rating`, that would be fine. 
+As the timestamp on the `dog_walkers` table creation would indicate it needs to be migrated before adding the `rating` column to it.
+
+However, if you did this in `reverse order`, that is adding a column to a table that doesn't exist, then creating the table, you would get an `error`.
+
+Migrations, as it was mentioned before, inherit from `ActiveRecord::Migration` and usually have a method called `change`. 
+In `change` you can create a table with the [create_table][] method. 
+
+This method automatically will create a primary key column called `id`, but this default can be overridden if you'd like to customize it. 
 
 [create_table]: http://guides.rubyonrails.org/migrations.html#creating-a-table
 
-***NOTE***: As of Active Record 5.x, we can no longer inherit directly from
-`ActiveRecord::Migration` and must instead specify which version of Active
-Record / Rails the migration was written for. If we were writing a migration for
-Active Record 5.1, we would inherit from `ActiveRecord::Migration[5.1]`. Don't
-worry too much about this until you get to the Rails section. Until then, if you
-encounter an error like this...
+***NOTE***: 
+As of Active Record 5.x, we can no longer inherit directly from `ActiveRecord::Migration`
+We must instead specify which version of ActiveRecord / Rails the migration was written for. 
 
-```text
-StandardError: Directly inheriting from ActiveRecord::Migration is not supported. Please specify the Rails release the migration was written for:
+If we were writing a migration for Active Record 5.1, we would inherit from `ActiveRecord::Migration[5.1]`. 
+Don't worry too much about this until you get to the Rails section. 
+Until then, if you encounter an error like this...
+
+text
+`StandardError: Directly inheriting from ActiveRecord::Migration is not supported.` 
+
+Please specify the Rails release the migration was written for:
 
   class CreateDogs < ActiveRecord::Migration[4.2]
 ```
@@ -113,7 +174,7 @@ error message instructs.
 
 Here's a simple example of the `create_table` method in action:
 
-```ruby
+
 class CreateDogs < ActiveRecord::Migration[4.2]
   def change
     create_table :dogs do |t|
@@ -122,7 +183,6 @@ class CreateDogs < ActiveRecord::Migration[4.2]
     end
   end
 end
-```
 
 The above code would create a table called `dogs` with three columns: `name`,
 `breed` (both explicitly created), and an implicitly created `id` column.
@@ -139,7 +199,6 @@ Take a look at a few data types that Active Record supports below:
 |text                           | strings between 1 and 2 ^ 32 - 1 characters           |
 
 ### Models
-
 Like migrations, models also inherit, but they inherit from
 `ActiveRecord::Base`. A simple model would look like this:
 
@@ -148,12 +207,15 @@ class Dog < ActiveRecord::Base
 end
 ```
 
-Even though there are no explicit methods for retrieving `name` and `breed`,
-this `Dog` model is associated with the created `dogs` table above. Because of
-this integration, we can call `name`, `breed`, and `id` on any new instance of
-the Dog class. For example:
+Even though there are no explicit methods for retrieving `name` and `breed`, this `Dog` model is associated with the created `dogs` table above. 
+
+Because of this integration, we can call `name`, `breed`, and `id` on any new instance of the Dog class. 
+
+# Example
+For example:
 
 ```ruby
+
 shiloh = Dog.new
 => #<Dog id: 1, name: nil, breed: nil>
 shiloh.name = "Shiloh"
@@ -167,11 +229,9 @@ Dog.find_by(:name => "Shiloh") == shiloh
 => true
 ```
 
-Notice that you had access to reader and writer methods that cooperated with the
-database that you never had to actually code. You could set the name without
-ever writing `def name=()` and call the `self.find_by(attribute)` method without
-ever teaching your Dog class how to look up data in the database. It's pretty
-awesome. Take a look at an example below.
+Notice that you had access to reader and writer methods that cooperated with the database that you never had to actually code. 
+You could set the name without ever writing `def name=()` and call the `self.find_by(attribute)` method without ever teaching 
+your Dog class how to look up data in the database. 
 
 #### Example
 

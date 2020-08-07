@@ -1,3 +1,30 @@
+class CreateCostumes < ActiveRecord::Migration[4.2] 
+    def change 
+        create_table :costumes do |t|
+            t.string :name
+            t.float :price 
+            t.string :size
+            t.string :image_url
+            t.timestamp :created_at 
+            t.timestamp :updated_at 
+        end  
+    end     
+end 
+
+
+
+                        
+
+#Modules Correspond To Classes
+#Modules are tracked in our program 
+
+
+# def change
+#     #Describing what it means to run this migration in the forward direction 
+#     #What change we are proposing  
+# end  
+
+
 # Create a class and inherit from ActiveRecord::Migration
 
 # By convention, the class name should match the part of the
@@ -7,3 +34,14 @@
 # Define a change method in which to do the migration
 # In this change method, create columns with the correct names and 
 # value types according to the spec
+
+
+
+   # def up 
+    #     #What happens when the migration is run. 
+    #     #Updates 
+    # end 
+
+    # def down 
+    #     #Vice Versa 
+    # end 

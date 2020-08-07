@@ -1,6 +1,6 @@
 require "bundler/setup"
 
-require "sinatra/activerecord"
+require "sinatra/activerecord"  #Loads tasks that are built into sinatra/active record library 
 require 'ostruct'
 require 'date'
 

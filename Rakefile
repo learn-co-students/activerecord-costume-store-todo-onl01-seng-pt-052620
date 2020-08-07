@@ -7,7 +7,9 @@ namespace :db do
   task :migrate do
     connection_details = YAML::load(File.open('config/database.yml'))
     ActiveRecord::Base.establish_connection(connection_details)
-    ActiveRecord::Migration.migrate("db/migrate/")
+    ActiveRecord::Migration.migrate("db/migrate/")  
+    #Checks all the files versus the DB schema version and 
+    #if it starts with a number that's greater than that it will run the code against the database. 
   end
 
   desc "drop and recreate the db"
